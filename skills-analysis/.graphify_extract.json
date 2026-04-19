@@ -1,0 +1,154 @@
+{
+  "nodes": [
+    {
+      "id": "core_superpowers_autonomous_execution",
+      "label": "Autonomous Execution",
+      "file_type": "document",
+      "source_file": "core-superpowers.md"
+    },
+    {
+      "id": "core_superpowers_tool_use",
+      "label": "Tool Use",
+      "file_type": "document",
+      "source_file": "core-superpowers.md"
+    },
+    {
+      "id": "core_superpowers_context_management",
+      "label": "Context Management",
+      "file_type": "document",
+      "source_file": "core-superpowers.md"
+    },
+    {
+      "id": "core_superpowers_multi_step_planning",
+      "label": "Multi-Step Planning",
+      "file_type": "document",
+      "source_file": "core-superpowers.md"
+    },
+    {
+      "id": "code_review_static_analysis",
+      "label": "Static Analysis",
+      "file_type": "document",
+      "source_file": "code-review-skills.md"
+    },
+    {
+      "id": "build_testing_unit_tests",
+      "label": "Unit Testing",
+      "file_type": "document",
+      "source_file": "build-testing-skills.md"
+    },
+    {
+      "id": "build_testing_ci_cd",
+      "label": "CI/CD Pipeline",
+      "file_type": "document",
+      "source_file": "build-testing-skills.md"
+    },
+    {
+      "id": "framework_patterns_react",
+      "label": "React Patterns",
+      "file_type": "document",
+      "source_file": "framework-language-patterns.md"
+    },
+    {
+      "id": "framework_patterns_typescript",
+      "label": "TypeScript Patterns",
+      "file_type": "document",
+      "source_file": "framework-language-patterns.md"
+    },
+    {
+      "id": "agent_orchestration_parallel_execution",
+      "label": "Parallel Execution",
+      "file_type": "document",
+      "source_file": "agent-orchestration-skills.md"
+    },
+    {
+      "id": "product_management_product_strategy",
+      "label": "Product Strategy",
+      "file_type": "document",
+      "source_file": "product-management-skills.md"
+    },
+    {
+      "id": "documentation_technical_writing",
+      "label": "Technical Writing",
+      "file_type": "document",
+      "source_file": "documentation-content-design.md"
+    },
+    {
+      "id": "infrastructure_ci_cd",
+      "label": "CI/CD Infrastructure",
+      "file_type": "document",
+      "source_file": "infrastructure-devops-database.md"
+    },
+    {
+      "id": "infrastructure_databases",
+      "label": "Database Management",
+      "file_type": "document",
+      "source_file": "infrastructure-devops-database.md"
+    },
+    {
+      "id": "financial_modeling",
+      "label": "Financial Modeling",
+      "file_type": "document",
+      "source_file": "financial-business-skills.md"
+    },
+    {
+      "id": "domain_healthcare",
+      "label": "Healthcare Domain",
+      "file_type": "document",
+      "source_file": "domain-specialized-skills.md"
+    }
+  ],
+  "edges": [
+    {
+      "source": "core_superpowers_autonomous_execution",
+      "target": "core_superpowers_tool_use",
+      "relation": "depends_on",
+      "confidence": "INFERRED",
+      "confidence_score": 0.9
+    },
+    {
+      "source": "core_superpowers_autonomous_execution",
+      "target": "core_superpowers_multi_step_planning",
+      "relation": "depends_on",
+      "confidence": "INFERRED",
+      "confidence_score": 0.85
+    },
+    {
+      "source": "code_review_static_analysis",
+      "target": "core_superpowers_tool_use",
+      "relation": "depends_on",
+      "confidence": "INFERRED",
+      "confidence_score": 0.75
+    },
+    {
+      "source": "build_testing_ci_cd",
+      "target": "build_testing_unit_tests",
+      "relation": "invokes",
+      "confidence": "INFERRED",
+      "confidence_score": 0.85
+    },
+    {
+      "source": "framework_patterns_react",
+      "target": "framework_patterns_typescript",
+      "relation": "related_to",
+      "confidence": "INFERRED",
+      "confidence_score": 0.8
+    },
+    {
+      "source": "agent_orchestration_parallel_execution",
+      "target": "core_superpowers_multi_step_planning",
+      "relation": "semantically_similar_to",
+      "confidence": "INFERRED",
+      "confidence_score": 0.8
+    },
+    {
+      "source": "infrastructure_ci_cd",
+      "target": "build_testing_ci_cd",
+      "relation": "semantically_similar_to",
+      "confidence": "INFERRED",
+      "confidence_score": 0.9
+    }
+  ],
+  "hyperedges": [],
+  "input_tokens": 0,
+  "output_tokens": 0
+}

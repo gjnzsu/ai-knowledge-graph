@@ -1,0 +1,176 @@
+{
+  "communities": {
+    "0": [
+      "code_review_static_analysis",
+      "core_superpowers_autonomous_execution",
+      "core_superpowers_tool_use"
+    ],
+    "1": [
+      "build_testing_ci_cd",
+      "build_testing_unit_tests",
+      "infrastructure_ci_cd"
+    ],
+    "2": [
+      "framework_patterns_react",
+      "framework_patterns_typescript"
+    ],
+    "3": [
+      "agent_orchestration_parallel_execution",
+      "core_superpowers_multi_step_planning"
+    ],
+    "4": [
+      "core_superpowers_context_management"
+    ],
+    "5": [
+      "product_management_product_strategy"
+    ],
+    "6": [
+      "documentation_technical_writing"
+    ],
+    "7": [
+      "infrastructure_databases"
+    ],
+    "8": [
+      "financial_modeling"
+    ],
+    "9": [
+      "domain_healthcare"
+    ]
+  },
+  "cohesion": {
+    "0": 0.67,
+    "1": 0.67,
+    "2": 1.0,
+    "3": 1.0,
+    "4": 1.0,
+    "5": 1.0,
+    "6": 1.0,
+    "7": 1.0,
+    "8": 1.0,
+    "9": 1.0
+  },
+  "gods": [
+    {
+      "id": "core_superpowers_autonomous_execution",
+      "label": "Autonomous Execution",
+      "degree": 2
+    },
+    {
+      "id": "core_superpowers_tool_use",
+      "label": "Tool Use",
+      "degree": 2
+    },
+    {
+      "id": "core_superpowers_multi_step_planning",
+      "label": "Multi-Step Planning",
+      "degree": 2
+    },
+    {
+      "id": "build_testing_ci_cd",
+      "label": "CI/CD Pipeline",
+      "degree": 2
+    },
+    {
+      "id": "code_review_static_analysis",
+      "label": "Static Analysis",
+      "degree": 1
+    },
+    {
+      "id": "build_testing_unit_tests",
+      "label": "Unit Testing",
+      "degree": 1
+    },
+    {
+      "id": "framework_patterns_react",
+      "label": "React Patterns",
+      "degree": 1
+    },
+    {
+      "id": "framework_patterns_typescript",
+      "label": "TypeScript Patterns",
+      "degree": 1
+    },
+    {
+      "id": "agent_orchestration_parallel_execution",
+      "label": "Parallel Execution",
+      "degree": 1
+    },
+    {
+      "id": "infrastructure_ci_cd",
+      "label": "CI/CD Infrastructure",
+      "degree": 1
+    }
+  ],
+  "surprises": [
+    {
+      "source": "Parallel Execution",
+      "target": "Multi-Step Planning",
+      "source_files": [
+        "agent-orchestration-skills.md",
+        "core-superpowers.md"
+      ],
+      "confidence": "INFERRED",
+      "relation": "semantically_similar_to",
+      "why": "inferred connection - not explicitly stated in source; connects across different repos/directories; semantically similar concepts with no structural link"
+    },
+    {
+      "source": "CI/CD Infrastructure",
+      "target": "CI/CD Pipeline",
+      "source_files": [
+        "infrastructure-devops-database.md",
+        "build-testing-skills.md"
+      ],
+      "confidence": "INFERRED",
+      "relation": "semantically_similar_to",
+      "why": "inferred connection - not explicitly stated in source; connects across different repos/directories; semantically similar concepts with no structural link"
+    },
+    {
+      "source": "Static Analysis",
+      "target": "Tool Use",
+      "source_files": [
+        "code-review-skills.md",
+        "core-superpowers.md"
+      ],
+      "confidence": "INFERRED",
+      "relation": "depends_on",
+      "why": "inferred connection - not explicitly stated in source; connects across different repos/directories"
+    }
+  ],
+  "questions": [
+    {
+      "type": "bridge_node",
+      "question": "Why does `Autonomous Execution` connect `Community 0` to `Community 3`?",
+      "why": "High betweenness centrality (0.038) - this node is a cross-community bridge."
+    },
+    {
+      "type": "bridge_node",
+      "question": "Why does `Multi-Step Planning` connect `Community 3` to `Community 0`?",
+      "why": "High betweenness centrality (0.029) - this node is a cross-community bridge."
+    },
+    {
+      "type": "verify_inferred",
+      "question": "Are the 2 inferred relationships involving `Autonomous Execution` (e.g. with `Tool Use` and `Multi-Step Planning`) actually correct?",
+      "why": "`Autonomous Execution` has 2 INFERRED edges - model-reasoned connections that need verification."
+    },
+    {
+      "type": "verify_inferred",
+      "question": "Are the 2 inferred relationships involving `Tool Use` (e.g. with `Autonomous Execution` and `Static Analysis`) actually correct?",
+      "why": "`Tool Use` has 2 INFERRED edges - model-reasoned connections that need verification."
+    },
+    {
+      "type": "verify_inferred",
+      "question": "Are the 2 inferred relationships involving `Multi-Step Planning` (e.g. with `Autonomous Execution` and `Parallel Execution`) actually correct?",
+      "why": "`Multi-Step Planning` has 2 INFERRED edges - model-reasoned connections that need verification."
+    },
+    {
+      "type": "verify_inferred",
+      "question": "Are the 2 inferred relationships involving `CI/CD Pipeline` (e.g. with `Unit Testing` and `CI/CD Infrastructure`) actually correct?",
+      "why": "`CI/CD Pipeline` has 2 INFERRED edges - model-reasoned connections that need verification."
+    },
+    {
+      "type": "isolated_nodes",
+      "question": "What connects `Context Management`, `Static Analysis`, `Unit Testing` to the rest of the system?",
+      "why": "12 weakly-connected nodes found - possible documentation gaps or missing edges."
+    }
+  ]
+}

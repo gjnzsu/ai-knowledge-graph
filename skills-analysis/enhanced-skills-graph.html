@@ -1,0 +1,631 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Skills Knowledge Graph - Enhanced Visualization</title>
+    <script src="https://d3js.org/d3.v7.min.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            background: #0a0e27;
+            color: #e0e0e0;
+            overflow: hidden;
+        }
+
+        #container {
+            display: flex;
+            height: 100vh;
+        }
+
+        #sidebar {
+            width: 350px;
+            background: #151932;
+            border-right: 1px solid #2a2f4a;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+        }
+
+        #controls {
+            padding: 20px;
+            border-bottom: 1px solid #2a2f4a;
+        }
+
+        h1 {
+            font-size: 20px;
+            margin-bottom: 15px;
+            color: #fff;
+        }
+
+        .control-group {
+            margin-bottom: 15px;
+        }
+
+        label {
+            display: block;
+            font-size: 12px;
+            color: #8b92b0;
+            margin-bottom: 5px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        select, input {
+            width: 100%;
+            padding: 10px;
+            background: #1e2339;
+            border: 1px solid #2a2f4a;
+            border-radius: 6px;
+            color: #e0e0e0;
+            font-size: 14px;
+        }
+
+        select:focus, input:focus {
+            outline: none;
+            border-color: #4a90e2;
+        }
+
+        .stats {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+            margin-top: 15px;
+        }
+
+        .stat-box {
+            background: #1e2339;
+            padding: 12px;
+            border-radius: 6px;
+            text-align: center;
+        }
+
+        .stat-value {
+            font-size: 24px;
+            font-weight: bold;
+            color: #4a90e2;
+        }
+
+        .stat-label {
+            font-size: 11px;
+            color: #8b92b0;
+            margin-top: 4px;
+        }
+
+        #card-view {
+            flex: 1;
+            overflow-y: auto;
+            padding: 20px;
+        }
+
+        .skill-card {
+            background: #1e2339;
+            border: 1px solid #2a2f4a;
+            border-radius: 8px;
+            padding: 16px;
+            margin-bottom: 12px;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .skill-card:hover {
+            border-color: #4a90e2;
+            transform: translateX(4px);
+        }
+
+        .skill-card.selected {
+            border-color: #4a90e2;
+            background: #252b47;
+        }
+
+        .skill-name {
+            font-size: 16px;
+            font-weight: 600;
+            color: #fff;
+            margin-bottom: 6px;
+        }
+
+        .skill-category {
+            display: inline-block;
+            font-size: 10px;
+            padding: 3px 8px;
+            background: #2a2f4a;
+            border-radius: 3px;
+            color: #8b92b0;
+            margin-bottom: 8px;
+        }
+
+        .skill-purpose {
+            font-size: 13px;
+            color: #b0b5c8;
+            line-height: 1.5;
+            margin-bottom: 8px;
+        }
+
+        .skill-meta {
+            font-size: 11px;
+            color: #6b7280;
+        }
+
+        #graph-container {
+            flex: 1;
+            position: relative;
+        }
+
+        svg {
+            width: 100%;
+            height: 100%;
+        }
+
+        .link {
+            stroke: #3a4058;
+            stroke-opacity: 0.6;
+            stroke-width: 1.5px;
+            fill: none;
+        }
+
+        .link.highlighted {
+            stroke: #4a90e2;
+            stroke-opacity: 1;
+            stroke-width: 2.5px;
+        }
+
+        .link.depends_on {
+            stroke: #e74c3c;
+        }
+
+        .link.invokes {
+            stroke: #f39c12;
+        }
+
+        .node circle {
+            stroke: #2a2f4a;
+            stroke-width: 2px;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .node:hover circle {
+            stroke-width: 3px;
+            r: 8;
+        }
+
+        .node.highlighted circle {
+            stroke: #4a90e2;
+            stroke-width: 4px;
+            r: 10;
+        }
+
+        .node.neighbor circle {
+            stroke: #4a90e2;
+            stroke-width: 3px;
+        }
+
+        .node.dimmed {
+            opacity: 0.2;
+        }
+
+        .node text {
+            font-size: 11px;
+            fill: #e0e0e0;
+            pointer-events: none;
+            text-anchor: middle;
+            dominant-baseline: middle;
+        }
+
+        .lane-label {
+            font-size: 14px;
+            font-weight: 600;
+            fill: #8b92b0;
+            text-anchor: start;
+        }
+
+        .lane-bg {
+            fill: #151932;
+            opacity: 0.3;
+        }
+
+        #view-toggle {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            z-index: 10;
+        }
+
+        .toggle-btn {
+            background: #1e2339;
+            border: 1px solid #2a2f4a;
+            color: #e0e0e0;
+            padding: 10px 20px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 14px;
+            margin-left: 10px;
+        }
+
+        .toggle-btn.active {
+            background: #4a90e2;
+            border-color: #4a90e2;
+            color: #fff;
+        }
+
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: #151932;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: #2a2f4a;
+            border-radius: 4px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: #3a4058;
+        }
+    </style>
+</head>
+<body>
+    <div id="container">
+        <div id="sidebar">
+            <div id="controls">
+                <h1>Skills Knowledge Graph</h1>
+
+                <div class="control-group">
+                    <label>Filter by Skill</label>
+                    <select id="skill-filter">
+                        <option value="">All Skills</option>
+                    </select>
+                </div>
+
+                <div class="control-group">
+                    <label>Filter by Category</label>
+                    <select id="category-filter">
+                        <option value="">All Categories</option>
+                    </select>
+                </div>
+
+                <div class="control-group">
+                    <label>Search</label>
+                    <input type="text" id="search-input" placeholder="Search skills...">
+                </div>
+
+                <div class="stats">
+                    <div class="stat-box">
+                        <div class="stat-value" id="total-skills">0</div>
+                        <div class="stat-label">Total Skills</div>
+                    </div>
+                    <div class="stat-box">
+                        <div class="stat-value" id="total-relationships">0</div>
+                        <div class="stat-label">Relationships</div>
+                    </div>
+                </div>
+            </div>
+
+            <div id="card-view"></div>
+        </div>
+
+        <div id="graph-container">
+            <div id="view-toggle">
+                <button class="toggle-btn active" data-view="graph">Graph View</button>
+                <button class="toggle-btn" data-view="cards">Cards Only</button>
+            </div>
+            <svg id="graph"></svg>
+        </div>
+    </div>
+
+    <script>
+        // Load the skills data - try multiple paths
+        async function loadData() {
+            const possiblePaths = [
+                '../skills-knowledge-graph.json',
+                './skills-knowledge-graph.json',
+                'skills-knowledge-graph.json'
+            ];
+
+            for (const path of possiblePaths) {
+                try {
+                    const response = await fetch(path);
+                    if (response.ok) {
+                        const data = await response.json();
+                        console.log('Successfully loaded data from:', path);
+                        initializeVisualization(data);
+                        return;
+                    }
+                } catch (error) {
+                    console.log(`Failed to load from ${path}:`, error.message);
+                }
+            }
+
+            // If all paths fail, show error
+            document.getElementById('graph-container').innerHTML =
+                '<div style="padding: 40px; text-align: center; color: #e74c3c;">' +
+                'Error loading skills data.<br><br>' +
+                'Tried paths: ' + possiblePaths.join(', ') + '<br><br>' +
+                'Please ensure skills-knowledge-graph.json is accessible.</div>';
+        }
+
+        loadData();
+
+        function initializeVisualization(data) {
+            const skills = data.skills;
+            const relationships = data.relationships;
+
+            // Update stats
+            document.getElementById('total-skills').textContent = skills.length;
+            document.getElementById('total-relationships').textContent = relationships.length;
+
+            // Populate filters
+            populateFilters(skills);
+
+            // Render card view
+            renderCardView(skills);
+
+            // Render graph
+            renderGraph(skills, relationships);
+
+            // Setup event listeners
+            setupEventListeners(skills, relationships);
+        }
+
+        function populateFilters(skills) {
+            const skillFilter = document.getElementById('skill-filter');
+            const categoryFilter = document.getElementById('category-filter');
+
+            // Sort skills alphabetically
+            const sortedSkills = [...skills].sort((a, b) => a.name.localeCompare(b.name));
+            sortedSkills.forEach(skill => {
+                const option = document.createElement('option');
+                option.value = skill.id;
+                option.textContent = skill.name;
+                skillFilter.appendChild(option);
+            });
+
+            // Get unique categories
+            const categories = [...new Set(skills.map(s => s.category))].sort();
+            categories.forEach(category => {
+                const option = document.createElement('option');
+                option.value = category;
+                option.textContent = category;
+                categoryFilter.appendChild(option);
+            });
+        }
+
+        function renderCardView(skills) {
+            const cardView = document.getElementById('card-view');
+            cardView.innerHTML = '';
+
+            skills.forEach(skill => {
+                const card = document.createElement('div');
+                card.className = 'skill-card';
+                card.dataset.skillId = skill.id;
+
+                const relatedCount = skill.related ? skill.related.length : 0;
+                const depsCount = skill.dependencies ? skill.dependencies.length : 0;
+
+                card.innerHTML = `
+                    <div class="skill-name">${skill.name}</div>
+                    <div class="skill-category">${skill.category}</div>
+                    <div class="skill-purpose">${skill.purpose || 'No description available'}</div>
+                    <div class="skill-meta">
+                        ${relatedCount} related • ${depsCount} dependencies
+                    </div>
+                `;
+
+                card.addEventListener('click', () => {
+                    highlightSkill(skill.id);
+                    document.querySelectorAll('.skill-card').forEach(c => c.classList.remove('selected'));
+                    card.classList.add('selected');
+                });
+
+                cardView.appendChild(card);
+            });
+        }
+
+        function renderGraph(skills, relationships) {
+            const svg = d3.select('#graph');
+            const width = document.getElementById('graph-container').clientWidth;
+            const height = document.getElementById('graph-container').clientHeight;
+
+            svg.attr('width', width).attr('height', height);
+            svg.selectAll('*').remove();
+
+            // Create category lanes
+            const categories = [...new Set(skills.map(s => s.category))];
+            const laneHeight = height / categories.length;
+
+            // Draw lane backgrounds
+            const laneGroup = svg.append('g').attr('class', 'lanes');
+            categories.forEach((category, i) => {
+                laneGroup.append('rect')
+                    .attr('class', 'lane-bg')
+                    .attr('x', 0)
+                    .attr('y', i * laneHeight)
+                    .attr('width', width)
+                    .attr('height', laneHeight);
+
+                laneGroup.append('text')
+                    .attr('class', 'lane-label')
+                    .attr('x', 20)
+                    .attr('y', i * laneHeight + 25)
+                    .text(category);
+            });
+
+            // Assign positions to nodes based on category lanes
+            const categoryIndex = {};
+            categories.forEach((cat, i) => {
+                categoryIndex[cat] = i;
+            });
+
+            skills.forEach((skill, i) => {
+                const laneIndex = categoryIndex[skill.category];
+                const skillsInLane = skills.filter(s => s.category === skill.category);
+                const indexInLane = skillsInLane.indexOf(skill);
+
+                skill.x = 100 + (indexInLane * (width - 200) / skillsInLane.length);
+                skill.y = laneIndex * laneHeight + laneHeight / 2;
+            });
+
+            // Create links
+            const linkGroup = svg.append('g').attr('class', 'links');
+            const links = relationships.map(rel => ({
+                source: skills.find(s => s.id === rel.source),
+                target: skills.find(s => s.id === rel.target),
+                type: rel.type
+            })).filter(l => l.source && l.target);
+
+            const linkElements = linkGroup.selectAll('.link')
+                .data(links)
+                .enter()
+                .append('path')
+                .attr('class', d => `link ${d.type}`)
+                .attr('d', d => {
+                    const dx = d.target.x - d.source.x;
+                    const dy = d.target.y - d.source.y;
+                    const dr = Math.sqrt(dx * dx + dy * dy);
+                    return `M${d.source.x},${d.source.y}A${dr},${dr} 0 0,1 ${d.target.x},${d.target.y}`;
+                });
+
+            // Create nodes
+            const nodeGroup = svg.append('g').attr('class', 'nodes');
+            const nodeElements = nodeGroup.selectAll('.node')
+                .data(skills)
+                .enter()
+                .append('g')
+                .attr('class', 'node')
+                .attr('transform', d => `translate(${d.x},${d.y})`)
+                .on('click', (event, d) => {
+                    highlightSkill(d.id);
+                    document.getElementById('skill-filter').value = d.id;
+                });
+
+            // Category colors
+            const colorScale = d3.scaleOrdinal()
+                .domain(categories)
+                .range(d3.schemeCategory10);
+
+            nodeElements.append('circle')
+                .attr('r', 6)
+                .attr('fill', d => colorScale(d.category));
+
+            nodeElements.append('text')
+                .attr('dy', -10)
+                .text(d => d.name.length > 20 ? d.name.substring(0, 20) + '...' : d.name);
+
+            // Store references for highlighting
+            window.graphElements = { nodeElements, linkElements, skills, links };
+        }
+
+        function highlightSkill(skillId) {
+            if (!window.graphElements) return;
+
+            const { nodeElements, linkElements, skills, links } = window.graphElements;
+
+            if (!skillId) {
+                // Clear highlighting
+                nodeElements.classed('highlighted', false)
+                    .classed('neighbor', false)
+                    .classed('dimmed', false);
+                linkElements.classed('highlighted', false);
+                return;
+            }
+
+            // Find neighbors
+            const neighbors = new Set();
+            links.forEach(link => {
+                if (link.source.id === skillId) neighbors.add(link.target.id);
+                if (link.target.id === skillId) neighbors.add(link.source.id);
+            });
+
+            // Update node classes
+            nodeElements.each(function(d) {
+                const node = d3.select(this);
+                node.classed('highlighted', d.id === skillId);
+                node.classed('neighbor', neighbors.has(d.id));
+                node.classed('dimmed', d.id !== skillId && !neighbors.has(d.id));
+            });
+
+            // Update link classes
+            linkElements.each(function(d) {
+                const link = d3.select(this);
+                const isConnected = d.source.id === skillId || d.target.id === skillId;
+                link.classed('highlighted', isConnected);
+            });
+        }
+
+        function setupEventListeners(skills, relationships) {
+            // Skill filter
+            document.getElementById('skill-filter').addEventListener('change', (e) => {
+                highlightSkill(e.target.value);
+
+                // Scroll to card
+                if (e.target.value) {
+                    const card = document.querySelector(`[data-skill-id="${e.target.value}"]`);
+                    if (card) {
+                        card.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                        document.querySelectorAll('.skill-card').forEach(c => c.classList.remove('selected'));
+                        card.classList.add('selected');
+                    }
+                }
+            });
+
+            // Category filter
+            document.getElementById('category-filter').addEventListener('change', (e) => {
+                const category = e.target.value;
+                const cards = document.querySelectorAll('.skill-card');
+
+                cards.forEach(card => {
+                    const skillId = card.dataset.skillId;
+                    const skill = skills.find(s => s.id === skillId);
+
+                    if (!category || skill.category === category) {
+                        card.style.display = 'block';
+                    } else {
+                        card.style.display = 'none';
+                    }
+                });
+            });
+
+            // Search
+            document.getElementById('search-input').addEventListener('input', (e) => {
+                const query = e.target.value.toLowerCase();
+                const cards = document.querySelectorAll('.skill-card');
+
+                cards.forEach(card => {
+                    const skillId = card.dataset.skillId;
+                    const skill = skills.find(s => s.id === skillId);
+                    const matches = skill.name.toLowerCase().includes(query) ||
+                                  (skill.purpose && skill.purpose.toLowerCase().includes(query));
+
+                    card.style.display = matches ? 'block' : 'none';
+                });
+            });
+
+            // View toggle
+            document.querySelectorAll('.toggle-btn').forEach(btn => {
+                btn.addEventListener('click', () => {
+                    document.querySelectorAll('.toggle-btn').forEach(b => b.classList.remove('active'));
+                    btn.classList.add('active');
+
+                    const view = btn.dataset.view;
+                    if (view === 'cards') {
+                        document.getElementById('graph-container').querySelector('svg').style.display = 'none';
+                        document.getElementById('sidebar').style.width = '100%';
+                    } else {
+                        document.getElementById('graph-container').querySelector('svg').style.display = 'block';
+                        document.getElementById('sidebar').style.width = '350px';
+                    }
+                });
+            });
+        }
+    </script>
+</body>
+</html>

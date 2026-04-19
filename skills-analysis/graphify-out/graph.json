@@ -1,0 +1,201 @@
+{
+  "directed": false,
+  "multigraph": false,
+  "graph": {},
+  "nodes": [
+    {
+      "label": "Autonomous Execution",
+      "file_type": "document",
+      "source_file": "core-superpowers.md",
+      "id": "core_superpowers_autonomous_execution",
+      "community": 0,
+      "norm_label": "autonomous execution"
+    },
+    {
+      "label": "Tool Use",
+      "file_type": "document",
+      "source_file": "core-superpowers.md",
+      "id": "core_superpowers_tool_use",
+      "community": 0,
+      "norm_label": "tool use"
+    },
+    {
+      "label": "Context Management",
+      "file_type": "document",
+      "source_file": "core-superpowers.md",
+      "id": "core_superpowers_context_management",
+      "community": 4,
+      "norm_label": "context management"
+    },
+    {
+      "label": "Multi-Step Planning",
+      "file_type": "document",
+      "source_file": "core-superpowers.md",
+      "id": "core_superpowers_multi_step_planning",
+      "community": 3,
+      "norm_label": "multi-step planning"
+    },
+    {
+      "label": "Static Analysis",
+      "file_type": "document",
+      "source_file": "code-review-skills.md",
+      "id": "code_review_static_analysis",
+      "community": 0,
+      "norm_label": "static analysis"
+    },
+    {
+      "label": "Unit Testing",
+      "file_type": "document",
+      "source_file": "build-testing-skills.md",
+      "id": "build_testing_unit_tests",
+      "community": 1,
+      "norm_label": "unit testing"
+    },
+    {
+      "label": "CI/CD Pipeline",
+      "file_type": "document",
+      "source_file": "build-testing-skills.md",
+      "id": "build_testing_ci_cd",
+      "community": 1,
+      "norm_label": "ci/cd pipeline"
+    },
+    {
+      "label": "React Patterns",
+      "file_type": "document",
+      "source_file": "framework-language-patterns.md",
+      "id": "framework_patterns_react",
+      "community": 2,
+      "norm_label": "react patterns"
+    },
+    {
+      "label": "TypeScript Patterns",
+      "file_type": "document",
+      "source_file": "framework-language-patterns.md",
+      "id": "framework_patterns_typescript",
+      "community": 2,
+      "norm_label": "typescript patterns"
+    },
+    {
+      "label": "Parallel Execution",
+      "file_type": "document",
+      "source_file": "agent-orchestration-skills.md",
+      "id": "agent_orchestration_parallel_execution",
+      "community": 3,
+      "norm_label": "parallel execution"
+    },
+    {
+      "label": "Product Strategy",
+      "file_type": "document",
+      "source_file": "product-management-skills.md",
+      "id": "product_management_product_strategy",
+      "community": 5,
+      "norm_label": "product strategy"
+    },
+    {
+      "label": "Technical Writing",
+      "file_type": "document",
+      "source_file": "documentation-content-design.md",
+      "id": "documentation_technical_writing",
+      "community": 6,
+      "norm_label": "technical writing"
+    },
+    {
+      "label": "CI/CD Infrastructure",
+      "file_type": "document",
+      "source_file": "infrastructure-devops-database.md",
+      "id": "infrastructure_ci_cd",
+      "community": 1,
+      "norm_label": "ci/cd infrastructure"
+    },
+    {
+      "label": "Database Management",
+      "file_type": "document",
+      "source_file": "infrastructure-devops-database.md",
+      "id": "infrastructure_databases",
+      "community": 7,
+      "norm_label": "database management"
+    },
+    {
+      "label": "Financial Modeling",
+      "file_type": "document",
+      "source_file": "financial-business-skills.md",
+      "id": "financial_modeling",
+      "community": 8,
+      "norm_label": "financial modeling"
+    },
+    {
+      "label": "Healthcare Domain",
+      "file_type": "document",
+      "source_file": "domain-specialized-skills.md",
+      "id": "domain_healthcare",
+      "community": 9,
+      "norm_label": "healthcare domain"
+    }
+  ],
+  "links": [
+    {
+      "relation": "depends_on",
+      "confidence": "INFERRED",
+      "confidence_score": 0.9,
+      "_src": "core_superpowers_autonomous_execution",
+      "_tgt": "core_superpowers_tool_use",
+      "source": "core_superpowers_autonomous_execution",
+      "target": "core_superpowers_tool_use"
+    },
+    {
+      "relation": "depends_on",
+      "confidence": "INFERRED",
+      "confidence_score": 0.85,
+      "_src": "core_superpowers_autonomous_execution",
+      "_tgt": "core_superpowers_multi_step_planning",
+      "source": "core_superpowers_autonomous_execution",
+      "target": "core_superpowers_multi_step_planning"
+    },
+    {
+      "relation": "depends_on",
+      "confidence": "INFERRED",
+      "confidence_score": 0.75,
+      "_src": "code_review_static_analysis",
+      "_tgt": "core_superpowers_tool_use",
+      "source": "core_superpowers_tool_use",
+      "target": "code_review_static_analysis"
+    },
+    {
+      "relation": "semantically_similar_to",
+      "confidence": "INFERRED",
+      "confidence_score": 0.8,
+      "_src": "agent_orchestration_parallel_execution",
+      "_tgt": "core_superpowers_multi_step_planning",
+      "source": "core_superpowers_multi_step_planning",
+      "target": "agent_orchestration_parallel_execution"
+    },
+    {
+      "relation": "invokes",
+      "confidence": "INFERRED",
+      "confidence_score": 0.85,
+      "_src": "build_testing_ci_cd",
+      "_tgt": "build_testing_unit_tests",
+      "source": "build_testing_unit_tests",
+      "target": "build_testing_ci_cd"
+    },
+    {
+      "relation": "semantically_similar_to",
+      "confidence": "INFERRED",
+      "confidence_score": 0.9,
+      "_src": "infrastructure_ci_cd",
+      "_tgt": "build_testing_ci_cd",
+      "source": "build_testing_ci_cd",
+      "target": "infrastructure_ci_cd"
+    },
+    {
+      "relation": "related_to",
+      "confidence": "INFERRED",
+      "confidence_score": 0.8,
+      "_src": "framework_patterns_react",
+      "_tgt": "framework_patterns_typescript",
+      "source": "framework_patterns_react",
+      "target": "framework_patterns_typescript"
+    }
+  ],
+  "hyperedges": []
+}
