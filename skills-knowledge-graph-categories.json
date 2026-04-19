@@ -1,0 +1,99 @@
+{
+  "metadata": {
+    "generated_at": "2026-04-19",
+    "version": "2.0-category-view",
+    "description": "High-level category view with skill counts",
+    "total_categories": 10
+  },
+  "categories": [
+    {
+      "name": "Build and Testing",
+      "skill_count": 16,
+      "connections": {
+        "Code Review": 10,
+        "Framework and Language Patterns": 6,
+        "Core Superpowers": 1
+      }
+    },
+    {
+      "name": "Domain Specialized",
+      "skill_count": 47,
+      "connections": {
+        "Agent Orchestration": 5,
+        "Documentation and Content": 4,
+        "Financial and Business": 1,
+        "Core Superpowers": 6,
+        "Infrastructure and DevOps": 1,
+        "Product Management": 2
+      }
+    },
+    {
+      "name": "Documentation and Content",
+      "skill_count": 34,
+      "connections": {
+        "Framework and Language Patterns": 1,
+        "Build and Testing": 1,
+        "Product Management": 1
+      }
+    },
+    {
+      "name": "Product Management",
+      "skill_count": 35,
+      "connections": {
+        "Documentation and Content": 1
+      }
+    },
+    {
+      "name": "Code Review",
+      "skill_count": 11,
+      "connections": {}
+    },
+    {
+      "name": "Financial and Business",
+      "skill_count": 29,
+      "connections": {
+        "Product Management": 3,
+        "Documentation and Content": 7
+      }
+    },
+    {
+      "name": "Core Superpowers",
+      "skill_count": 12,
+      "connections": {
+        "Build and Testing": 2,
+        "Code Review": 1,
+        "Domain Specialized": 2
+      }
+    },
+    {
+      "name": "Agent Orchestration",
+      "skill_count": 29,
+      "connections": {
+        "Code Review": 1,
+        "Build and Testing": 4
+      }
+    },
+    {
+      "name": "Infrastructure and DevOps",
+      "skill_count": 35,
+      "connections": {
+        "Code Review": 5,
+        "Build and Testing": 6,
+        "Framework and Language Patterns": 2,
+        "Core Superpowers": 1,
+        "Product Management": 1,
+        "Documentation and Content": 2,
+        "Agent Orchestration": 1
+      }
+    },
+    {
+      "name": "Framework and Language Patterns",
+      "skill_count": 31,
+      "connections": {
+        "Build and Testing": 11,
+        "Code Review": 11,
+        "Documentation and Content": 1
+      }
+    }
+  ]
+}

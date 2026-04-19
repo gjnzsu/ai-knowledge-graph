@@ -1,0 +1,563 @@
+{
+  "metadata": {
+    "generated_at": "2026-04-19",
+    "version": "2.0-core-view",
+    "description": "Top 30 core skills only - cleaner visualization",
+    "total_skills": 30,
+    "total_relationships": 14
+  },
+  "skills": [
+    {
+      "id": "team",
+      "name": "Team",
+      "purpose": "Run a structured multi-agent team with a tech lead orchestrator",
+      "when_to_use": "When the user wants multiple agents working together",
+      "dependencies": [],
+      "invokes": [
+        "TeamCreate",
+        "Agent",
+        "SendMessage",
+        "TaskUpdate"
+      ],
+      "related": [
+        "dispatching-parallel-agents",
+        "subagent-driven-development"
+      ],
+      "category": "Agent Orchestration",
+      "source_file": "agent-orchestration-skills.md",
+      "domain": "Team coordination"
+    },
+    {
+      "id": "autonomous-loops",
+      "name": "Autonomous Loops",
+      "purpose": "Patterns and architectures for autonomous Claude Code loops",
+      "when_to_use": "Designing autonomous agent systems",
+      "dependencies": [],
+      "invokes": [],
+      "related": [
+        "loop",
+        "continuous-agent-loop",
+        "autonomous-agent-harness"
+      ],
+      "category": "Agent Orchestration",
+      "source_file": "agent-orchestration-skills.md",
+      "domain": "Loop patterns"
+    },
+    {
+      "id": "continuous-agent-loop",
+      "name": "Continuous Agent Loop",
+      "purpose": "Patterns for continuous autonomous agent loops with quality gates, evals",
+      "when_to_use": "Building production autonomous systems",
+      "dependencies": [],
+      "invokes": [],
+      "related": [
+        "autonomous-loops",
+        "loop"
+      ],
+      "category": "Agent Orchestration",
+      "source_file": "agent-orchestration-skills.md",
+      "domain": "Production loops"
+    },
+    {
+      "id": "autonomous-agent-harness",
+      "name": "Autonomous Agent Harness",
+      "purpose": "Transform Claude Code into a fully autonomous agent system",
+      "when_to_use": "Building autonomous agent infrastructure",
+      "dependencies": [],
+      "invokes": [],
+      "related": [
+        "autonomous-loops",
+        "continuous-agent-loop"
+      ],
+      "category": "Agent Orchestration",
+      "source_file": "agent-orchestration-skills.md",
+      "domain": "Agent infrastructure"
+    },
+    {
+      "id": "eval-harness",
+      "name": "Eval Harness",
+      "purpose": "Formal evaluation framework for Claude Code sessions",
+      "when_to_use": "Implementing eval-driven development",
+      "dependencies": [],
+      "invokes": [],
+      "related": [
+        "verification-loop",
+        "continuous-learning"
+      ],
+      "category": "Agent Orchestration",
+      "source_file": "agent-orchestration-skills.md",
+      "domain": "Evaluation framework"
+    },
+    {
+      "id": "e2e-testing",
+      "name": "E2E Testing",
+      "purpose": "Playwright E2E testing patterns, Page Object Model, configuration",
+      "when_to_use": "For E2E test implementation",
+      "dependencies": [],
+      "invokes": [],
+      "related": [
+        "e2e-runner",
+        "webapp-testing"
+      ],
+      "category": "Build and Testing",
+      "source_file": "build-testing-skills.md",
+      "domain": "Playwright, E2E patterns"
+    },
+    {
+      "id": "webapp-testing",
+      "name": "Webapp Testing",
+      "purpose": "Toolkit for interacting with and testing local web applications using Playwright",
+      "when_to_use": "Testing web applications",
+      "dependencies": [],
+      "invokes": [],
+      "related": [
+        "e2e-testing",
+        "e2e-runner"
+      ],
+      "category": "Build and Testing",
+      "source_file": "build-testing-skills.md",
+      "domain": "Web testing, Playwright"
+    },
+    {
+      "id": "pptx",
+      "name": "Pptx",
+      "purpose": "Use any time a .pptx file is involved",
+      "when_to_use": "Working with PowerPoint files",
+      "dependencies": [],
+      "invokes": [],
+      "related": [
+        "ppt-generator",
+        "huashu-slides"
+      ],
+      "category": "Documentation and Content",
+      "source_file": "documentation-content-design.md",
+      "domain": "PowerPoint"
+    },
+    {
+      "id": "ppt-generator",
+      "name": "Ppt Generator",
+      "purpose": "Create professional PowerPoint presentations with enhanced styling",
+      "when_to_use": "Generating presentations",
+      "dependencies": [],
+      "invokes": [],
+      "related": [
+        "pptx",
+        "huashu-slides",
+        "frontend-slides"
+      ],
+      "category": "Documentation and Content",
+      "source_file": "documentation-content-design.md",
+      "domain": "Presentation generation"
+    },
+    {
+      "id": "frontend-design",
+      "name": "Frontend Design",
+      "purpose": "Create distinctive, production-grade frontend interfaces",
+      "when_to_use": "Frontend UI design",
+      "dependencies": [],
+      "invokes": [],
+      "related": [
+        "design-system",
+        "canvas-design",
+        "liquid-glass-design"
+      ],
+      "category": "Documentation and Content",
+      "source_file": "documentation-content-design.md",
+      "domain": "Frontend design"
+    },
+    {
+      "id": "content-engine",
+      "name": "Content Engine",
+      "purpose": "Create platform-native content systems for X, LinkedIn, TikTok, YouTube",
+      "when_to_use": "Multi-platform content creation",
+      "dependencies": [],
+      "invokes": [],
+      "related": [
+        "article-writing",
+        "brand-voice",
+        "crosspost"
+      ],
+      "category": "Documentation and Content",
+      "source_file": "documentation-content-design.md",
+      "domain": "Content systems"
+    },
+    {
+      "id": "video-editing",
+      "name": "Video Editing",
+      "purpose": "AI-assisted video editing workflows",
+      "when_to_use": "Editing video content",
+      "dependencies": [],
+      "invokes": [],
+      "related": [
+        "manim-video",
+        "remotion-video-creation",
+        "videodb"
+      ],
+      "category": "Documentation and Content",
+      "source_file": "documentation-content-design.md",
+      "domain": "Video editing"
+    },
+    {
+      "id": "skill-creator",
+      "name": "Skill Creator",
+      "purpose": "Guide for creating effective skills",
+      "when_to_use": "When users want to create new skills",
+      "dependencies": [],
+      "invokes": [],
+      "related": [
+        "writing-skills",
+        "skill-authoring-workflow",
+        "skill-stocktake"
+      ],
+      "category": "Domain Specialized",
+      "source_file": "domain-specialized-skills.md",
+      "domain": "Skill creation"
+    },
+    {
+      "id": "skill-stocktake",
+      "name": "Skill Stocktake",
+      "purpose": "Audit Claude skills and commands for quality",
+      "when_to_use": "Auditing skills",
+      "dependencies": [],
+      "invokes": [],
+      "related": [
+        "skill-creator",
+        "skill-health",
+        "skill-comply"
+      ],
+      "category": "Domain Specialized",
+      "source_file": "domain-specialized-skills.md",
+      "domain": "Skill auditing"
+    },
+    {
+      "id": "instinct-status",
+      "name": "Instinct Status",
+      "purpose": "Show learned instincts (project + global) with confidence",
+      "when_to_use": "Reviewing learned patterns",
+      "dependencies": [],
+      "invokes": [],
+      "related": [
+        "instinct-export",
+        "instinct-import"
+      ],
+      "category": "Domain Specialized",
+      "source_file": "domain-specialized-skills.md",
+      "domain": "Instinct management"
+    },
+    {
+      "id": "saas-revenue-growth-metrics",
+      "name": "Saas Revenue Growth Metrics",
+      "purpose": "Calculate SaaS revenue, retention, and growth metrics",
+      "when_to_use": "Diagnosing momentum and growth",
+      "dependencies": [],
+      "invokes": [],
+      "related": [
+        "saas-economics-efficiency-metrics",
+        "business-health-diagnostic"
+      ],
+      "category": "Financial and Business",
+      "source_file": "financial-business-skills.md",
+      "domain": "SaaS revenue"
+    },
+    {
+      "id": "saas-economics-efficiency-metrics",
+      "name": "Saas Economics Efficiency Metrics",
+      "purpose": "Evaluate SaaS unit economics and capital efficiency",
+      "when_to_use": "Deciding whether to scale",
+      "dependencies": [],
+      "invokes": [],
+      "related": [
+        "saas-revenue-growth-metrics",
+        "business-health-diagnostic"
+      ],
+      "category": "Financial and Business",
+      "source_file": "financial-business-skills.md",
+      "domain": "SaaS economics"
+    },
+    {
+      "id": "laravel-patterns",
+      "name": "Laravel Patterns",
+      "purpose": "Laravel architecture patterns, routing/controllers, Eloquent ORM, service layer",
+      "when_to_use": "Laravel development",
+      "dependencies": [],
+      "invokes": [],
+      "related": [
+        "laravel-tdd",
+        "laravel-verification",
+        "laravel-security",
+        "laravel-plugin-discovery"
+      ],
+      "category": "Framework and Language Patterns",
+      "source_file": "framework-language-patterns.md",
+      "domain": "Laravel, PHP, Eloquent"
+    },
+    {
+      "id": "django-patterns",
+      "name": "Django Patterns",
+      "purpose": "Django architecture patterns, REST API design with DRF, ORM best practices",
+      "when_to_use": "Django development",
+      "dependencies": [],
+      "invokes": [],
+      "related": [
+        "django-tdd",
+        "django-verification",
+        "django-security"
+      ],
+      "category": "Framework and Language Patterns",
+      "source_file": "framework-language-patterns.md",
+      "domain": "Django, Python, DRF"
+    },
+    {
+      "id": "springboot-patterns",
+      "name": "Springboot Patterns",
+      "purpose": "Spring Boot architecture patterns, REST API design, layered services",
+      "when_to_use": "Spring Boot development",
+      "dependencies": [],
+      "invokes": [],
+      "related": [
+        "springboot-tdd",
+        "springboot-verification",
+        "springboot-security",
+        "jpa-patterns"
+      ],
+      "category": "Framework and Language Patterns",
+      "source_file": "framework-language-patterns.md",
+      "domain": "Spring Boot, Java"
+    },
+    {
+      "id": "frontend-patterns",
+      "name": "Frontend Patterns",
+      "purpose": "Frontend development patterns for React, Next.js, state management, performance",
+      "when_to_use": "Frontend development",
+      "dependencies": [],
+      "invokes": [],
+      "related": [
+        "frontend-design",
+        "nextjs-turbopack",
+        "nuxt4-patterns"
+      ],
+      "category": "Framework and Language Patterns",
+      "source_file": "framework-language-patterns.md",
+      "domain": "React, Next.js, frontend"
+    },
+    {
+      "id": "swiftui-patterns",
+      "name": "Swiftui Patterns",
+      "purpose": "SwiftUI architecture patterns, state management with @Observable, view composition",
+      "when_to_use": "SwiftUI development",
+      "dependencies": [],
+      "invokes": [],
+      "related": [
+        "swift-protocol-di-testing",
+        "swift-concurrency-6-2"
+      ],
+      "category": "Framework and Language Patterns",
+      "source_file": "framework-language-patterns.md",
+      "domain": "SwiftUI, iOS"
+    },
+    {
+      "id": "kotlin-patterns",
+      "name": "Kotlin Patterns",
+      "purpose": "Idiomatic Kotlin patterns, best practices, and conventions",
+      "when_to_use": "Kotlin development",
+      "dependencies": [],
+      "invokes": [],
+      "related": [
+        "kotlin-reviewer",
+        "kotlin-testing",
+        "kotlin-coroutines-flows"
+      ],
+      "category": "Framework and Language Patterns",
+      "source_file": "framework-language-patterns.md",
+      "domain": "Kotlin"
+    },
+    {
+      "id": "backend-patterns",
+      "name": "Backend Patterns",
+      "purpose": "Backend architecture patterns, API design, database optimization",
+      "when_to_use": "Backend development",
+      "dependencies": [],
+      "invokes": [],
+      "related": [
+        "api-design",
+        "database-migrations"
+      ],
+      "category": "Infrastructure and DevOps",
+      "source_file": "infrastructure-devops-database.md",
+      "domain": "Backend patterns"
+    },
+    {
+      "id": "update-config",
+      "name": "Update Config",
+      "purpose": "Configure the Claude Code harness via settings.json",
+      "when_to_use": "Automated behaviors, permissions, env vars, hooks",
+      "dependencies": [],
+      "invokes": [],
+      "related": [
+        "keybindings-help",
+        "configure-ecc"
+      ],
+      "category": "Infrastructure and DevOps",
+      "source_file": "infrastructure-devops-database.md",
+      "domain": "Configuration"
+    },
+    {
+      "id": "discovery-process",
+      "name": "Discovery Process",
+      "purpose": "Run a full discovery cycle from problem hypothesis to validated solution",
+      "when_to_use": "When you need to validate a problem or solution",
+      "dependencies": [],
+      "invokes": [],
+      "related": [
+        "discovery-interview-prep",
+        "pol-probe"
+      ],
+      "category": "Product Management",
+      "source_file": "product-management-skills.md",
+      "domain": "Product discovery"
+    },
+    {
+      "id": "problem-statement",
+      "name": "Problem Statement",
+      "purpose": "Write a user-centered problem statement with who is blocked, what they are trying",
+      "when_to_use": "Defining the problem to solve",
+      "dependencies": [],
+      "invokes": [],
+      "related": [
+        "problem-framing-canvas",
+        "epic-hypothesis"
+      ],
+      "category": "Product Management",
+      "source_file": "product-management-skills.md",
+      "domain": "Problem definition"
+    },
+    {
+      "id": "user-story",
+      "name": "User Story",
+      "purpose": "Create user stories with Mike Cohn format and Gherkin acceptance criteria",
+      "when_to_use": "Writing user stories",
+      "dependencies": [],
+      "invokes": [],
+      "related": [
+        "user-story-mapping",
+        "user-story-splitting"
+      ],
+      "category": "Product Management",
+      "source_file": "product-management-skills.md",
+      "domain": "User stories"
+    },
+    {
+      "id": "market-research",
+      "name": "Market Research",
+      "purpose": "Conduct market research, competitive analysis, investor due diligence",
+      "when_to_use": "Market analysis needs",
+      "dependencies": [],
+      "invokes": [],
+      "related": [
+        "competitive-analysis",
+        "company-research"
+      ],
+      "category": "Product Management",
+      "source_file": "product-management-skills.md",
+      "domain": "Market research"
+    },
+    {
+      "id": "language-agnostic-tdd",
+      "name": "Language Agnostic TDD",
+      "purpose": "Enforce TDD workflow for any language - write tests first, then implement",
+      "when_to_use": "When implementing features or fixing bugs in any language",
+      "dependencies": [],
+      "invokes": [],
+      "related": [],
+      "category": "Build and Testing",
+      "source_file": "consolidated",
+      "domain": "Test-driven development"
+    }
+  ],
+  "relationships": [
+    {
+      "source": "autonomous-loops",
+      "target": "continuous-agent-loop",
+      "type": "related_to",
+      "confidence": 0.8
+    },
+    {
+      "source": "autonomous-loops",
+      "target": "autonomous-agent-harness",
+      "type": "related_to",
+      "confidence": 0.8
+    },
+    {
+      "source": "continuous-agent-loop",
+      "target": "autonomous-loops",
+      "type": "related_to",
+      "confidence": 0.8
+    },
+    {
+      "source": "autonomous-agent-harness",
+      "target": "autonomous-loops",
+      "type": "related_to",
+      "confidence": 0.8
+    },
+    {
+      "source": "autonomous-agent-harness",
+      "target": "continuous-agent-loop",
+      "type": "related_to",
+      "confidence": 0.8
+    },
+    {
+      "source": "e2e-testing",
+      "target": "webapp-testing",
+      "type": "related_to",
+      "confidence": 0.8
+    },
+    {
+      "source": "webapp-testing",
+      "target": "e2e-testing",
+      "type": "related_to",
+      "confidence": 0.8
+    },
+    {
+      "source": "pptx",
+      "target": "ppt-generator",
+      "type": "related_to",
+      "confidence": 0.8
+    },
+    {
+      "source": "ppt-generator",
+      "target": "pptx",
+      "type": "related_to",
+      "confidence": 0.8
+    },
+    {
+      "source": "skill-creator",
+      "target": "skill-stocktake",
+      "type": "related_to",
+      "confidence": 0.8
+    },
+    {
+      "source": "skill-stocktake",
+      "target": "skill-creator",
+      "type": "related_to",
+      "confidence": 0.8
+    },
+    {
+      "source": "saas-revenue-growth-metrics",
+      "target": "saas-economics-efficiency-metrics",
+      "type": "related_to",
+      "confidence": 0.8
+    },
+    {
+      "source": "saas-economics-efficiency-metrics",
+      "target": "saas-revenue-growth-metrics",
+      "type": "related_to",
+      "confidence": 0.8
+    },
+    {
+      "source": "frontend-patterns",
+      "target": "frontend-design",
+      "type": "related_to",
+      "confidence": 0.8
+    }
+  ]
+}

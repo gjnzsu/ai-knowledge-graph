@@ -1,0 +1,552 @@
+{
+  "metadata": {
+    "generated_at": "2026-04-19",
+    "version": "2.0-workflow-view",
+    "description": "Skills used in 13 workflows - practical view",
+    "total_skills": 31,
+    "total_relationships": 12
+  },
+  "skills": [
+    {
+      "id": "team",
+      "name": "Team",
+      "purpose": "Run a structured multi-agent team with a tech lead orchestrator",
+      "when_to_use": "When the user wants multiple agents working together",
+      "dependencies": [],
+      "invokes": [
+        "TeamCreate",
+        "Agent",
+        "SendMessage",
+        "TaskUpdate"
+      ],
+      "related": [
+        "dispatching-parallel-agents",
+        "subagent-driven-development"
+      ],
+      "category": "Agent Orchestration",
+      "source_file": "agent-orchestration-skills.md",
+      "domain": "Team coordination"
+    },
+    {
+      "id": "dispatching-parallel-agents",
+      "name": "Dispatching Parallel Agents",
+      "purpose": "Multi-agent parallel execution for independent tasks",
+      "when_to_use": "When facing 2+ independent tasks that can be worked on without shared state",
+      "dependencies": [],
+      "invokes": [
+        "Agent tool with multiple subagents"
+      ],
+      "related": [
+        "team",
+        "subagent-driven-development"
+      ],
+      "category": "Agent Orchestration",
+      "source_file": "agent-orchestration-skills.md",
+      "domain": "Parallel execution"
+    },
+    {
+      "id": "autonomous-loops",
+      "name": "Autonomous Loops",
+      "purpose": "Patterns and architectures for autonomous Claude Code loops",
+      "when_to_use": "Designing autonomous agent systems",
+      "dependencies": [],
+      "invokes": [],
+      "related": [
+        "loop",
+        "continuous-agent-loop",
+        "autonomous-agent-harness"
+      ],
+      "category": "Agent Orchestration",
+      "source_file": "agent-orchestration-skills.md",
+      "domain": "Loop patterns"
+    },
+    {
+      "id": "autonomous-agent-harness",
+      "name": "Autonomous Agent Harness",
+      "purpose": "Transform Claude Code into a fully autonomous agent system",
+      "when_to_use": "Building autonomous agent infrastructure",
+      "dependencies": [],
+      "invokes": [],
+      "related": [
+        "autonomous-loops",
+        "continuous-agent-loop"
+      ],
+      "category": "Agent Orchestration",
+      "source_file": "agent-orchestration-skills.md",
+      "domain": "Agent infrastructure"
+    },
+    {
+      "id": "eval-harness",
+      "name": "Eval Harness",
+      "purpose": "Formal evaluation framework for Claude Code sessions",
+      "when_to_use": "Implementing eval-driven development",
+      "dependencies": [],
+      "invokes": [],
+      "related": [
+        "verification-loop",
+        "continuous-learning"
+      ],
+      "category": "Agent Orchestration",
+      "source_file": "agent-orchestration-skills.md",
+      "domain": "Evaluation framework"
+    },
+    {
+      "id": "e2e-testing",
+      "name": "E2E Testing",
+      "purpose": "Playwright E2E testing patterns, Page Object Model, configuration",
+      "when_to_use": "For E2E test implementation",
+      "dependencies": [],
+      "invokes": [],
+      "related": [
+        "e2e-runner",
+        "webapp-testing"
+      ],
+      "category": "Build and Testing",
+      "source_file": "build-testing-skills.md",
+      "domain": "Playwright, E2E patterns"
+    },
+    {
+      "id": "webapp-testing",
+      "name": "Webapp Testing",
+      "purpose": "Toolkit for interacting with and testing local web applications using Playwright",
+      "when_to_use": "Testing web applications",
+      "dependencies": [],
+      "invokes": [],
+      "related": [
+        "e2e-testing",
+        "e2e-runner"
+      ],
+      "category": "Build and Testing",
+      "source_file": "build-testing-skills.md",
+      "domain": "Web testing, Playwright"
+    },
+    {
+      "id": "code-reviewer",
+      "name": "Code Reviewer",
+      "purpose": "Comprehensive code review for TypeScript, JavaScript, Python, Swift, Kotlin",
+      "when_to_use": "After writing or modifying code, MUST BE USED for all code changes",
+      "dependencies": [],
+      "invokes": [
+        "Read",
+        "Grep",
+        "Glob",
+        "Bash tools"
+      ],
+      "related": [
+        "All language-specific reviewers"
+      ],
+      "category": "Code Review",
+      "source_file": "code-review-skills.md"
+    },
+    {
+      "id": "brainstorming",
+      "name": "Brainstorming",
+      "purpose": "Creative work and feature planning",
+      "when_to_use": "MUST use before any creative work - creating features, building components",
+      "dependencies": [
+        "None (entry point skill)"
+      ],
+      "invokes": [
+        "May lead to writing-plans or executing-plans"
+      ],
+      "related": [],
+      "category": "Core Superpowers",
+      "source_file": "core-superpowers.md"
+    },
+    {
+      "id": "writing-plans",
+      "name": "Writing Plans",
+      "purpose": "Create implementation plans from specs",
+      "when_to_use": "When you have a spec or requirements for a multi-step task, before touching code",
+      "dependencies": [
+        "Often follows brainstorming"
+      ],
+      "invokes": [
+        "Leads to executing-plans or subagent-driven-development"
+      ],
+      "related": [],
+      "category": "Core Superpowers",
+      "source_file": "core-superpowers.md"
+    },
+    {
+      "id": "executing-plans",
+      "name": "Executing Plans",
+      "purpose": "Execute written implementation plans",
+      "when_to_use": "When you have a written implementation plan to execute in a separate session",
+      "dependencies": [
+        "Requires a plan from writing-plans"
+      ],
+      "invokes": [],
+      "related": [
+        "subagent-driven-development (parallel execution variant)"
+      ],
+      "category": "Core Superpowers",
+      "source_file": "core-superpowers.md"
+    },
+    {
+      "id": "systematic-debugging",
+      "name": "Systematic Debugging",
+      "purpose": "Structured debugging workflow",
+      "when_to_use": "When encountering any bug, test failure, or unexpected behavior, before proceeding",
+      "dependencies": [],
+      "invokes": [],
+      "related": [],
+      "category": "Core Superpowers",
+      "source_file": "core-superpowers.md"
+    },
+    {
+      "id": "verification-before-completion",
+      "name": "Verification Before Completion",
+      "purpose": "Verify work before claiming completion",
+      "when_to_use": "When about to claim work is complete, fixed, or passing, before committing",
+      "dependencies": [],
+      "invokes": [],
+      "related": [],
+      "category": "Core Superpowers",
+      "source_file": "core-superpowers.md"
+    },
+    {
+      "id": "requesting-code-review",
+      "name": "Requesting Code Review",
+      "purpose": "Prepare code for review",
+      "when_to_use": "When completing tasks, implementing major features, or before merging",
+      "dependencies": [],
+      "invokes": [
+        "Leads to code-reviewer or language-specific reviewers"
+      ],
+      "related": [],
+      "category": "Core Superpowers",
+      "source_file": "core-superpowers.md"
+    },
+    {
+      "id": "receiving-code-review",
+      "name": "Receiving Code Review",
+      "purpose": "Process code review feedback",
+      "when_to_use": "When receiving code review feedback, before implementing suggestions",
+      "dependencies": [
+        "Follows requesting-code-review"
+      ],
+      "invokes": [],
+      "related": [
+        "code-reviewer"
+      ],
+      "category": "Core Superpowers",
+      "source_file": "core-superpowers.md"
+    },
+    {
+      "id": "finishing-a-development-branch",
+      "name": "Finishing A Development Branch",
+      "purpose": "Decide how to finalize completed work",
+      "when_to_use": "When implementation is complete, all tests pass",
+      "dependencies": [
+        "Follows development work"
+      ],
+      "invokes": [],
+      "related": [
+        "using-git-worktrees"
+      ],
+      "category": "Core Superpowers",
+      "source_file": "core-superpowers.md"
+    },
+    {
+      "id": "doc-coauthoring",
+      "name": "Doc Coauthoring",
+      "purpose": "Guide users through a structured workflow for co-authoring documentation",
+      "when_to_use": "Creating documentation collaboratively",
+      "dependencies": [],
+      "invokes": [],
+      "related": [
+        "article-writing"
+      ],
+      "category": "Documentation and Content",
+      "source_file": "documentation-content-design.md",
+      "domain": "Documentation"
+    },
+    {
+      "id": "pptx",
+      "name": "Pptx",
+      "purpose": "Use any time a .pptx file is involved",
+      "when_to_use": "Working with PowerPoint files",
+      "dependencies": [],
+      "invokes": [],
+      "related": [
+        "ppt-generator",
+        "huashu-slides"
+      ],
+      "category": "Documentation and Content",
+      "source_file": "documentation-content-design.md",
+      "domain": "PowerPoint"
+    },
+    {
+      "id": "ppt-generator",
+      "name": "Ppt Generator",
+      "purpose": "Create professional PowerPoint presentations with enhanced styling",
+      "when_to_use": "Generating presentations",
+      "dependencies": [],
+      "invokes": [],
+      "related": [
+        "pptx",
+        "huashu-slides",
+        "frontend-slides"
+      ],
+      "category": "Documentation and Content",
+      "source_file": "documentation-content-design.md",
+      "domain": "Presentation generation"
+    },
+    {
+      "id": "drawio",
+      "name": "Drawio",
+      "purpose": "Always use when user asks to create, generate, draw, or design a diagram",
+      "when_to_use": "Creating diagrams, flowcharts, architecture diagrams",
+      "dependencies": [],
+      "invokes": [],
+      "related": [
+        "graphify"
+      ],
+      "category": "Documentation and Content",
+      "source_file": "documentation-content-design.md",
+      "domain": "Diagram creation"
+    },
+    {
+      "id": "graphify",
+      "name": "Graphify",
+      "purpose": "Turn any folder of files into a navigable knowledge graph",
+      "when_to_use": "Creating knowledge graphs from codebases or documents",
+      "dependencies": [
+        "Python",
+        "graphify package"
+      ],
+      "invokes": [],
+      "related": [
+        "drawio"
+      ],
+      "category": "Documentation and Content",
+      "source_file": "documentation-content-design.md",
+      "domain": "Knowledge graphs"
+    },
+    {
+      "id": "frontend-design",
+      "name": "Frontend Design",
+      "purpose": "Create distinctive, production-grade frontend interfaces",
+      "when_to_use": "Frontend UI design",
+      "dependencies": [],
+      "invokes": [],
+      "related": [
+        "design-system",
+        "canvas-design",
+        "liquid-glass-design"
+      ],
+      "category": "Documentation and Content",
+      "source_file": "documentation-content-design.md",
+      "domain": "Frontend design"
+    },
+    {
+      "id": "skill-creator",
+      "name": "Skill Creator",
+      "purpose": "Guide for creating effective skills",
+      "when_to_use": "When users want to create new skills",
+      "dependencies": [],
+      "invokes": [],
+      "related": [
+        "writing-skills",
+        "skill-authoring-workflow",
+        "skill-stocktake"
+      ],
+      "category": "Domain Specialized",
+      "source_file": "domain-specialized-skills.md",
+      "domain": "Skill creation"
+    },
+    {
+      "id": "skill-stocktake",
+      "name": "Skill Stocktake",
+      "purpose": "Audit Claude skills and commands for quality",
+      "when_to_use": "Auditing skills",
+      "dependencies": [],
+      "invokes": [],
+      "related": [
+        "skill-creator",
+        "skill-health",
+        "skill-comply"
+      ],
+      "category": "Domain Specialized",
+      "source_file": "domain-specialized-skills.md",
+      "domain": "Skill auditing"
+    },
+    {
+      "id": "backend-patterns",
+      "name": "Backend Patterns",
+      "purpose": "Backend architecture patterns, API design, database optimization",
+      "when_to_use": "Backend development",
+      "dependencies": [],
+      "invokes": [],
+      "related": [
+        "api-design",
+        "database-migrations"
+      ],
+      "category": "Infrastructure and DevOps",
+      "source_file": "infrastructure-devops-database.md",
+      "domain": "Backend patterns"
+    },
+    {
+      "id": "codebase-onboarding",
+      "name": "Codebase Onboarding",
+      "purpose": "Analyze an unfamiliar codebase and generate a structured onboarding guide",
+      "when_to_use": "Onboarding to new codebases",
+      "dependencies": [],
+      "invokes": [],
+      "related": [
+        "graphify",
+        "repo-scan"
+      ],
+      "category": "Infrastructure and DevOps",
+      "source_file": "infrastructure-devops-database.md",
+      "domain": "Codebase onboarding"
+    },
+    {
+      "id": "discovery-process",
+      "name": "Discovery Process",
+      "purpose": "Run a full discovery cycle from problem hypothesis to validated solution",
+      "when_to_use": "When you need to validate a problem or solution",
+      "dependencies": [],
+      "invokes": [],
+      "related": [
+        "discovery-interview-prep",
+        "pol-probe"
+      ],
+      "category": "Product Management",
+      "source_file": "product-management-skills.md",
+      "domain": "Product discovery"
+    },
+    {
+      "id": "problem-statement",
+      "name": "Problem Statement",
+      "purpose": "Write a user-centered problem statement with who is blocked, what they are trying",
+      "when_to_use": "Defining the problem to solve",
+      "dependencies": [],
+      "invokes": [],
+      "related": [
+        "problem-framing-canvas",
+        "epic-hypothesis"
+      ],
+      "category": "Product Management",
+      "source_file": "product-management-skills.md",
+      "domain": "Problem definition"
+    },
+    {
+      "id": "user-story",
+      "name": "User Story",
+      "purpose": "Create user stories with Mike Cohn format and Gherkin acceptance criteria",
+      "when_to_use": "Writing user stories",
+      "dependencies": [],
+      "invokes": [],
+      "related": [
+        "user-story-mapping",
+        "user-story-splitting"
+      ],
+      "category": "Product Management",
+      "source_file": "product-management-skills.md",
+      "domain": "User stories"
+    },
+    {
+      "id": "market-research",
+      "name": "Market Research",
+      "purpose": "Conduct market research, competitive analysis, investor due diligence",
+      "when_to_use": "Market analysis needs",
+      "dependencies": [],
+      "invokes": [],
+      "related": [
+        "competitive-analysis",
+        "company-research"
+      ],
+      "category": "Product Management",
+      "source_file": "product-management-skills.md",
+      "domain": "Market research"
+    },
+    {
+      "id": "language-agnostic-tdd",
+      "name": "Language Agnostic TDD",
+      "purpose": "Enforce TDD workflow for any language - write tests first, then implement",
+      "when_to_use": "When implementing features or fixing bugs in any language",
+      "dependencies": [],
+      "invokes": [],
+      "related": [],
+      "category": "Build and Testing",
+      "source_file": "consolidated",
+      "domain": "Test-driven development"
+    }
+  ],
+  "relationships": [
+    {
+      "source": "autonomous-loops",
+      "target": "autonomous-agent-harness",
+      "type": "related_to",
+      "confidence": 0.8
+    },
+    {
+      "source": "autonomous-agent-harness",
+      "target": "autonomous-loops",
+      "type": "related_to",
+      "confidence": 0.8
+    },
+    {
+      "source": "e2e-testing",
+      "target": "webapp-testing",
+      "type": "related_to",
+      "confidence": 0.8
+    },
+    {
+      "source": "webapp-testing",
+      "target": "e2e-testing",
+      "type": "related_to",
+      "confidence": 0.8
+    },
+    {
+      "source": "receiving-code-review",
+      "target": "code-reviewer",
+      "type": "related_to",
+      "confidence": 0.8
+    },
+    {
+      "source": "pptx",
+      "target": "ppt-generator",
+      "type": "related_to",
+      "confidence": 0.8
+    },
+    {
+      "source": "ppt-generator",
+      "target": "pptx",
+      "type": "related_to",
+      "confidence": 0.8
+    },
+    {
+      "source": "drawio",
+      "target": "graphify",
+      "type": "related_to",
+      "confidence": 0.8
+    },
+    {
+      "source": "graphify",
+      "target": "drawio",
+      "type": "related_to",
+      "confidence": 0.8
+    },
+    {
+      "source": "skill-creator",
+      "target": "skill-stocktake",
+      "type": "related_to",
+      "confidence": 0.8
+    },
+    {
+      "source": "skill-stocktake",
+      "target": "skill-creator",
+      "type": "related_to",
+      "confidence": 0.8
+    },
+    {
+      "source": "codebase-onboarding",
+      "target": "graphify",
+      "type": "related_to",
+      "confidence": 0.8
+    }
+  ]
+}

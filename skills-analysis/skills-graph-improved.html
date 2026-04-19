@@ -1,0 +1,468 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Skills Knowledge Graph - Improved</title>
+    <script src="https://d3js.org/d3.v7.min.js"></script>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; background: #0a0e27; color: #e0e0e0; overflow: hidden; }
+        #container { display: flex; height: 100vh; }
+        #sidebar { width: 350px; background: #151932; border-right: 1px solid #2a2f4a; display: flex; flex-direction: column; overflow: hidden; }
+        #controls { padding: 20px; border-bottom: 1px solid #2a2f4a; }
+        h1 { font-size: 20px; margin-bottom: 15px; color: #fff; }
+        .control-group { margin-bottom: 15px; }
+        label { display: block; font-size: 12px; color: #8b92b0; margin-bottom: 5px; text-transform: uppercase; letter-spacing: 0.5px; }
+        select, input { width: 100%; padding: 10px; background: #1e2339; border: 1px solid #2a2f4a; border-radius: 6px; color: #e0e0e0; font-size: 14px; }
+        select:focus, input:focus { outline: none; border-color: #4a90e2; }
+        .view-selector { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-bottom: 15px; }
+        .view-btn { padding: 10px; background: #1e2339; border: 1px solid #2a2f4a; border-radius: 6px; color: #8b92b0; cursor: pointer; text-align: center; font-size: 13px; transition: all 0.2s; }
+        .view-btn:hover { border-color: #4a90e2; }
+        .view-btn.active { background: #4a90e2; border-color: #4a90e2; color: #fff; }
+        .stats { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 15px; }
+        .stat-box { background: #1e2339; padding: 12px; border-radius: 6px; text-align: center; }
+        .stat-value { font-size: 24px; font-weight: bold; color: #4a90e2; }
+        .stat-label { font-size: 11px; color: #8b92b0; margin-top: 4px; }
+        #card-view { flex: 1; overflow-y: auto; padding: 20px; }
+        .skill-card { background: #1e2339; border: 1px solid #2a2f4a; border-radius: 8px; padding: 16px; margin-bottom: 12px; cursor: pointer; transition: all 0.2s; }
+        .skill-card:hover { border-color: #4a90e2; transform: translateX(4px); }
+        .skill-card.selected { border-color: #4a90e2; background: #252b47; }
+        .skill-name { font-size: 16px; font-weight: 600; color: #fff; margin-bottom: 6px; }
+        .skill-category { display: inline-block; font-size: 10px; padding: 3px 8px; background: #2a2f4a; border-radius: 3px; color: #8b92b0; margin-bottom: 8px; }
+        .skill-purpose { font-size: 13px; color: #b0b5c8; line-height: 1.5; margin-bottom: 8px; }
+        .skill-meta { font-size: 11px; color: #6b7280; }
+        #graph-container { flex: 1; position: relative; }
+        svg { width: 100%; height: 100%; }
+        .link { stroke: #3a4058; stroke-opacity: 0.4; stroke-width: 1.5px; fill: none; }
+        .link.highlighted { stroke: #4a90e2; stroke-opacity: 1; stroke-width: 2.5px; }
+        .node circle { stroke: #2a2f4a; stroke-width: 2px; cursor: pointer; transition: all 0.2s; }
+        .node:hover circle { stroke-width: 3px; }
+        .node.highlighted circle { stroke: #4a90e2; stroke-width: 4px; r: 12; }
+        .node.neighbor circle { stroke: #4a90e2; stroke-width: 3px; }
+        .node.dimmed { opacity: 0.2; }
+        .node text { font-size: 12px; fill: #e0e0e0; pointer-events: none; text-anchor: middle; font-weight: 500; }
+        .category-node circle { r: 20; }
+        .category-node text { font-size: 14px; font-weight: 600; }
+        .info-banner { background: #2a2f4a; padding: 12px 20px; margin-bottom: 15px; border-radius: 6px; font-size: 13px; color: #8b92b0; }
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: #151932; }
+        ::-webkit-scrollbar-thumb { background: #2a2f4a; border-radius: 4px; }
+        ::-webkit-scrollbar-thumb:hover { background: #3a4058; }
+    </style>
+</head>
+<body>
+    <div id="container">
+        <div id="sidebar">
+            <div id="controls">
+                <h1>Skills Knowledge Graph</h1>
+
+                <div class="info-banner" id="view-info">
+                    Select a view to get started
+                </div>
+
+                <label>View Mode</label>
+                <div class="view-selector">
+                    <div class="view-btn active" data-view="core">Core 30</div>
+                    <div class="view-btn" data-view="workflow">Workflows</div>
+                    <div class="view-btn" data-view="category">Categories</div>
+                    <div class="view-btn" data-view="full">Full (279)</div>
+                </div>
+
+                <div class="control-group">
+                    <label>Filter by Skill</label>
+                    <select id="skill-filter">
+                        <option value="">All Skills</option>
+                    </select>
+                </div>
+
+                <div class="control-group">
+                    <label>Search</label>
+                    <input type="text" id="search-input" placeholder="Search skills...">
+                </div>
+
+                <div class="stats">
+                    <div class="stat-box">
+                        <div class="stat-value" id="total-skills">0</div>
+                        <div class="stat-label">Skills</div>
+                    </div>
+                    <div class="stat-box">
+                        <div class="stat-value" id="total-relationships">0</div>
+                        <div class="stat-label">Connections</div>
+                    </div>
+                </div>
+            </div>
+
+            <div id="card-view"></div>
+        </div>
+
+        <div id="graph-container">
+            <svg id="graph"></svg>
+        </div>
+    </div>
+
+    <script>
+        const DATA_FILES = {
+            'core': 'skills-knowledge-graph-core30.json',
+            'workflow': 'skills-knowledge-graph-workflows.json',
+            'category': 'skills-knowledge-graph-categories.json',
+            'full': 'skills-knowledge-graph.json'
+        };
+
+        const VIEW_INFO = {
+            'core': 'Top 30 most important skills - clean and focused',
+            'workflow': '31 skills used in common workflows - practical view',
+            'category': '10 high-level categories - overview',
+            'full': 'All 279 skills - comprehensive but crowded'
+        };
+
+        let currentView = 'core';
+        let currentData = null;
+
+        // Load initial view
+        loadView('core');
+
+        // View selector
+        document.querySelectorAll('.view-btn').forEach(btn => {
+            btn.addEventListener('click', () => {
+                document.querySelectorAll('.view-btn').forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+                const view = btn.dataset.view;
+                loadView(view);
+            });
+        });
+
+        async function loadView(view) {
+            currentView = view;
+            document.getElementById('view-info').textContent = VIEW_INFO[view];
+
+            try {
+                const response = await fetch(DATA_FILES[view]);
+                const data = await response.json();
+                currentData = data;
+
+                if (view === 'category') {
+                    initializeCategoryView(data);
+                } else {
+                    initializeSkillView(data);
+                }
+            } catch (error) {
+                console.error('Error loading view:', error);
+                document.getElementById('graph-container').innerHTML =
+                    '<div style="padding: 40px; text-align: center; color: #e74c3c;">Error loading data: ' + error.message + '</div>';
+            }
+        }
+
+        function initializeSkillView(data) {
+            const skills = data.skills;
+            const relationships = data.relationships;
+
+            document.getElementById('total-skills').textContent = skills.length;
+            document.getElementById('total-relationships').textContent = relationships.length;
+
+            populateFilters(skills);
+            renderCardView(skills);
+            renderForceGraph(skills, relationships);
+            setupEventListeners(skills, relationships);
+        }
+
+        function initializeCategoryView(data) {
+            const categories = data.categories;
+
+            document.getElementById('total-skills').textContent = categories.length;
+            document.getElementById('total-relationships').textContent =
+                categories.reduce((sum, cat) => sum + Object.keys(cat.connections).length, 0);
+
+            renderCategoryCards(categories);
+            renderCategoryGraph(categories);
+        }
+
+        function populateFilters(skills) {
+            const skillFilter = document.getElementById('skill-filter');
+            skillFilter.innerHTML = '<option value="">All Skills</option>';
+
+            const sortedSkills = [...skills].sort((a, b) => a.name.localeCompare(b.name));
+            sortedSkills.forEach(skill => {
+                const option = document.createElement('option');
+                option.value = skill.id;
+                option.textContent = skill.name;
+                skillFilter.appendChild(option);
+            });
+        }
+
+        function renderCardView(skills) {
+            const cardView = document.getElementById('card-view');
+            cardView.innerHTML = '';
+
+            skills.forEach(skill => {
+                const card = document.createElement('div');
+                card.className = 'skill-card';
+                card.dataset.skillId = skill.id;
+
+                const relatedCount = skill.related ? skill.related.length : 0;
+                const depsCount = skill.dependencies ? skill.dependencies.length : 0;
+
+                card.innerHTML = `
+                    <div class="skill-name">${skill.name}</div>
+                    <div class="skill-category">${skill.category}</div>
+                    <div class="skill-purpose">${skill.purpose || 'No description available'}</div>
+                    <div class="skill-meta">${relatedCount} related • ${depsCount} dependencies</div>
+                `;
+
+                card.addEventListener('click', () => {
+                    highlightSkill(skill.id);
+                    document.querySelectorAll('.skill-card').forEach(c => c.classList.remove('selected'));
+                    card.classList.add('selected');
+                });
+
+                cardView.appendChild(card);
+            });
+        }
+
+        function renderCategoryCards(categories) {
+            const cardView = document.getElementById('card-view');
+            cardView.innerHTML = '';
+
+            categories.forEach(category => {
+                const card = document.createElement('div');
+                card.className = 'skill-card';
+
+                const connectionCount = Object.keys(category.connections).length;
+
+                card.innerHTML = `
+                    <div class="skill-name">${category.name}</div>
+                    <div class="skill-purpose">${category.skill_count} skills in this category</div>
+                    <div class="skill-meta">${connectionCount} connections to other categories</div>
+                `;
+
+                cardView.appendChild(card);
+            });
+        }
+
+        function renderForceGraph(skills, relationships) {
+            const svg = d3.select('#graph');
+            const width = document.getElementById('graph-container').clientWidth;
+            const height = document.getElementById('graph-container').clientHeight;
+
+            svg.attr('width', width).attr('height', height);
+            svg.selectAll('*').remove();
+
+            // Create force simulation
+            const simulation = d3.forceSimulation(skills)
+                .force('link', d3.forceLink(relationships).id(d => d.id).distance(100))
+                .force('charge', d3.forceManyBody().strength(-300))
+                .force('center', d3.forceCenter(width / 2, height / 2))
+                .force('collision', d3.forceCollide().radius(40));
+
+            // Create links
+            const linkGroup = svg.append('g').attr('class', 'links');
+            const linkElements = linkGroup.selectAll('.link')
+                .data(relationships)
+                .enter()
+                .append('line')
+                .attr('class', 'link');
+
+            // Create nodes
+            const nodeGroup = svg.append('g').attr('class', 'nodes');
+            const categories = [...new Set(skills.map(s => s.category))];
+            const colorScale = d3.scaleOrdinal().domain(categories).range(d3.schemeCategory10);
+
+            const nodeElements = nodeGroup.selectAll('.node')
+                .data(skills)
+                .enter()
+                .append('g')
+                .attr('class', 'node')
+                .call(d3.drag()
+                    .on('start', dragstarted)
+                    .on('drag', dragged)
+                    .on('end', dragended))
+                .on('click', (event, d) => {
+                    highlightSkill(d.id);
+                    document.getElementById('skill-filter').value = d.id;
+                });
+
+            nodeElements.append('circle')
+                .attr('r', 8)
+                .attr('fill', d => colorScale(d.category));
+
+            nodeElements.append('text')
+                .attr('dy', -12)
+                .text(d => d.name.length > 15 ? d.name.substring(0, 15) + '...' : d.name);
+
+            // Update positions
+            simulation.on('tick', () => {
+                linkElements
+                    .attr('x1', d => d.source.x)
+                    .attr('y1', d => d.source.y)
+                    .attr('x2', d => d.target.x)
+                    .attr('y2', d => d.target.y);
+
+                nodeElements.attr('transform', d => `translate(${d.x},${d.y})`);
+            });
+
+            function dragstarted(event, d) {
+                if (!event.active) simulation.alphaTarget(0.3).restart();
+                d.fx = d.x;
+                d.fy = d.y;
+            }
+
+            function dragged(event, d) {
+                d.fx = event.x;
+                d.fy = event.y;
+            }
+
+            function dragended(event, d) {
+                if (!event.active) simulation.alphaTarget(0);
+                d.fx = null;
+                d.fy = null;
+            }
+
+            window.graphElements = { nodeElements, linkElements, skills, relationships };
+        }
+
+        function renderCategoryGraph(categories) {
+            const svg = d3.select('#graph');
+            const width = document.getElementById('graph-container').clientWidth;
+            const height = document.getElementById('graph-container').clientHeight;
+
+            svg.attr('width', width).attr('height', height);
+            svg.selectAll('*').remove();
+
+            // Create nodes and links
+            const nodes = categories.map(cat => ({
+                id: cat.name,
+                count: cat.skill_count
+            }));
+
+            const links = [];
+            categories.forEach(cat => {
+                Object.entries(cat.connections).forEach(([target, count]) => {
+                    links.push({
+                        source: cat.name,
+                        target: target,
+                        value: count
+                    });
+                });
+            });
+
+            // Force simulation
+            const simulation = d3.forceSimulation(nodes)
+                .force('link', d3.forceLink(links).id(d => d.id).distance(200))
+                .force('charge', d3.forceManyBody().strength(-500))
+                .force('center', d3.forceCenter(width / 2, height / 2));
+
+            // Draw links
+            const linkGroup = svg.append('g');
+            const linkElements = linkGroup.selectAll('line')
+                .data(links)
+                .enter()
+                .append('line')
+                .attr('class', 'link')
+                .attr('stroke-width', d => Math.sqrt(d.value));
+
+            // Draw nodes
+            const nodeGroup = svg.append('g');
+            const nodeElements = nodeGroup.selectAll('g')
+                .data(nodes)
+                .enter()
+                .append('g')
+                .attr('class', 'node category-node')
+                .call(d3.drag()
+                    .on('start', dragstarted)
+                    .on('drag', dragged)
+                    .on('end', dragended));
+
+            nodeElements.append('circle')
+                .attr('r', d => 15 + Math.sqrt(d.count) * 2)
+                .attr('fill', '#4a90e2');
+
+            nodeElements.append('text')
+                .text(d => d.id)
+                .attr('dy', 4);
+
+            simulation.on('tick', () => {
+                linkElements
+                    .attr('x1', d => d.source.x)
+                    .attr('y1', d => d.source.y)
+                    .attr('x2', d => d.target.x)
+                    .attr('y2', d => d.target.y);
+
+                nodeElements.attr('transform', d => `translate(${d.x},${d.y})`);
+            });
+
+            function dragstarted(event, d) {
+                if (!event.active) simulation.alphaTarget(0.3).restart();
+                d.fx = d.x;
+                d.fy = d.y;
+            }
+
+            function dragged(event, d) {
+                d.fx = event.x;
+                d.fy = event.y;
+            }
+
+            function dragended(event, d) {
+                if (!event.active) simulation.alphaTarget(0);
+                d.fx = null;
+                d.fy = null;
+            }
+        }
+
+        function highlightSkill(skillId) {
+            if (!window.graphElements) return;
+            const { nodeElements, linkElements, relationships } = window.graphElements;
+
+            if (!skillId) {
+                nodeElements.classed('highlighted', false).classed('neighbor', false).classed('dimmed', false);
+                linkElements.classed('highlighted', false);
+                return;
+            }
+
+            const neighbors = new Set();
+            relationships.forEach(link => {
+                if (link.source.id === skillId) neighbors.add(link.target.id);
+                if (link.target.id === skillId) neighbors.add(link.source.id);
+            });
+
+            nodeElements.each(function(d) {
+                const node = d3.select(this);
+                node.classed('highlighted', d.id === skillId);
+                node.classed('neighbor', neighbors.has(d.id));
+                node.classed('dimmed', d.id !== skillId && !neighbors.has(d.id));
+            });
+
+            linkElements.each(function(d) {
+                const link = d3.select(this);
+                link.classed('highlighted', d.source.id === skillId || d.target.id === skillId);
+            });
+        }
+
+        function setupEventListeners(skills, relationships) {
+            document.getElementById('skill-filter').addEventListener('change', (e) => {
+                highlightSkill(e.target.value);
+                if (e.target.value) {
+                    const card = document.querySelector(`[data-skill-id="${e.target.value}"]`);
+                    if (card) {
+                        card.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                        document.querySelectorAll('.skill-card').forEach(c => c.classList.remove('selected'));
+                        card.classList.add('selected');
+                    }
+                }
+            });
+
+            document.getElementById('search-input').addEventListener('input', (e) => {
+                const query = e.target.value.toLowerCase();
+                document.querySelectorAll('.skill-card').forEach(card => {
+                    const skillId = card.dataset.skillId;
+                    const skill = skills.find(s => s.id === skillId);
+                    if (skill) {
+                        const matches = skill.name.toLowerCase().includes(query) ||
+                                      (skill.purpose && skill.purpose.toLowerCase().includes(query));
+                        card.style.display = matches ? 'block' : 'none';
+                    }
+                });
+            });
+        }
+    </script>
+</body>
+</html>
