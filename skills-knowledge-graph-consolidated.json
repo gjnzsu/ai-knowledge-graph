@@ -26,13 +26,6 @@
       "Agent Orchestration",
       "Infrastructure and DevOps",
       "Framework and Language Patterns"
-    ],
-    "version": "2.0-cleaned",
-    "changes": [
-      "Removed 7 exact duplicate skills",
-      "Consolidated 20 similar skills into 6 unified skills",
-      "Net reduction: 21 skills (300 -> 279)",
-      "Cleaned relationships: 446 -> 400"
     ]
   },
   "skills": [
